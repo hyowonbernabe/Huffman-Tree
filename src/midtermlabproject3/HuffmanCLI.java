@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.InputMismatchException;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -31,9 +32,27 @@ public class HuffmanCLI {
                     
                     Choice:\s""");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = -1; // Initialize choice to an invalid value
+            boolean validInput = false;
 
+            // Loop until a valid input is provided
+            while (!validInput) {
+                try {
+                    choice = scanner.nextInt();  // Attempt to read the user's input
+                    scanner.nextLine();  // Consume the newline character
+
+                    if (choice < 1 || choice > 5) {
+                        System.out.println("\nInvalid choice. Please enter a number between 1 and 5.\n");
+                    } else {
+                        validInput = true;  // Valid input, exit the loop
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("\nInvalid input. Please enter a valid number between 1 and 5.");
+                    scanner.nextLine();  // Clear the invalid input from the scanner buffer
+                }
+            }
+
+            // Process the choice after validating input
             if (choice == 1) { // 1. Upload a file with text.
                 System.out.println("\nThere are existing example files in the project folder for testing purposes inside the 'res' folder.");
                 System.out.println("These files range from file 1 - 6. Example: res/file1.txt\n");
@@ -57,9 +76,6 @@ public class HuffmanCLI {
             } else if (choice == 5) { // 5. Exit.
                 System.out.println("\nExiting...");
                 System.exit(0);
-            } else{
-                System.out.println("\nInvalid choice. Please try again.\n");
-                continue;
             }
 
             huffmanCreation(huffman, text);
@@ -185,7 +201,7 @@ public class HuffmanCLI {
         String text;
 
         while (true) {
-            System.out.print(""" 
+            System.out.print("""
                     FROM THE EXISTING HUFFMAN CODE:
                     1. Encode a message.
                     2. Decode a message.
@@ -194,14 +210,32 @@ public class HuffmanCLI {
                      
                     Choice:\s""");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();
+            int choice = -1; // Initialize choice to an invalid value
+            boolean validInput = false;
 
+            // Loop until a valid input is provided
+            while (!validInput) {
+                try {
+                    choice = scanner.nextInt();  // Attempt to read the user's input
+                    scanner.nextLine();  // Consume the newline character
+
+                    if (choice < 1 || choice > 4) {
+                        System.out.println("\nInvalid choice. Please enter a number between 1 and 4.\n");
+                    } else {
+                        validInput = true;  // Valid input, exit the loop
+                    }
+                } catch (InputMismatchException e) {
+                    System.out.println("\nInvalid input. Please enter a valid number between 1 and 4.");
+                    scanner.nextLine();  // Clear the invalid input from the scanner buffer
+                }
+            }
+
+            // Process the choice after validating input
             try {
                 if (choice == 1) { // 1. Encode a message.
                     System.out.print("\nEnter the text to encode: ");
                     text = scanner.nextLine();
-                    System.out.println("\nEncoded Text: \n" + huffman.encode(text, huffmanCode) + "\n");
+                    System.out.println("\nEncoded Text: \n" + huffman.encode(text, huffmanCode));
                     System.out.println();
                 } else if (choice == 2) { // 2. Decode a message.
                     System.out.print("\nEnter the text to decode: ");
